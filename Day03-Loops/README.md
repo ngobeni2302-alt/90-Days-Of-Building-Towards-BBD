@@ -64,12 +64,6 @@ Our verification strategy checks both correct output generation and edge-case er
 
 ---
 
-### The Struggle & Lesson Learned
-
-* **The Initializer Trap:** Initially, I forgot that our accumulator variable (`sum`) **must start at `0**`. Starting it at `1` silently skewed the sum of 1..5 to `16` instead of `15`. Always trace your base/initial state before letting the loop run!
-
----
-
 ### How To Run
 
 Execute the test suite via Maven:
