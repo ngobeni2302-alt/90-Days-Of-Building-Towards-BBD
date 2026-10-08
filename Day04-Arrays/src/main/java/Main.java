@@ -36,7 +36,16 @@ public class Main {
         int sum = 0;
 
         for (int i = 0; i < array.length; i++){
-            sum += i;
+            sum += array[i];
         }return sum;
+    }
+
+    public static double calculateAverage(int[] array){
+        if (array == null || array.length == 0){
+            throw new IllegalArgumentException("Error: Array List Not Valid");
+        }
+
+        double average = (double)calculateSum(array) / array.length;
+        return average;
     }
 }
