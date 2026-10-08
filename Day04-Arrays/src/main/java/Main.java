@@ -48,4 +48,16 @@ public class Main {
         double average = (double)calculateSum(array) / array.length;
         return average;
     }
+
+    public static int[] reverseArray(int[] array){
+        if (array == null || array.length == 0){
+            throw new IllegalArgumentException("Error: Array List Not Valid");
+        }
+
+        int[] reversed = new int[array.length];
+
+        for (int i = 0; i < array.length; i++){
+            reversed[i] = array[array.length - 1 - i];
+        }return reversed;
+    }
 }
