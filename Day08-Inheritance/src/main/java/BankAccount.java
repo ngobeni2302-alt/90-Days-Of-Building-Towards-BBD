@@ -25,7 +25,7 @@ public abstract class BankAccount {
         amount -= withdraw;
     }
 
-    public String getAccountName{return this.accountName;}
+    public String getAccountName(){return this.accountName;}
 
     public double getBalance(){return amount;}
 }
