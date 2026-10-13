@@ -17,7 +17,7 @@ public class BankTest {
     @Test
     @DisplayName("Bank should add accounts and return an unmodifiable or copied list")
     void testAddAndGetAccounts() {
-        BankAccount normalAcc = new StandardBankAccount("REG-001");
+        BankAccount normalAcc = new BankAccount("REG-001") {};
         SavingsAccount savingsAcc = new SavingsAccount("SAV-001", 0.05);
 
         bank.addAccount(normalAcc);
@@ -34,7 +34,7 @@ public class BankTest {
     @Test
     @DisplayName("totalBalance should correctly sum balances across mixed account types (Polymorphism)")
     void testTotalBalance() {
-        BankAccount normalAcc = new StandardBankAccount("REG-001");
+        BankAccount normalAcc = new BankAccount("REG-001") {};
         normalAcc.deposit(500.0);
 
         SavingsAccount savingsAcc = new SavingsAccount("SAV-001", 0.05);
@@ -50,7 +50,7 @@ public class BankTest {
     @Test
     @DisplayName("applyInterestToAll should only apply interest to SavingsAccount instances")
     void testApplyInterestToAll() {
-        BankAccount normalAcc = new StandardBankAccount("REG-001");
+        BankAccount normalAcc = new BankAccount("REG-001") {};
         normalAcc.deposit(1000.0); // Should remain untouched by interest
 
         SavingsAccount savingsAcc = new SavingsAccount("SAV-001", 0.10); // 10% interest
@@ -68,7 +68,7 @@ public class BankTest {
     @Test
     @DisplayName("findAccount should locate the correct account by account number")
     void testFindAccount() {
-        BankAccount normalAcc = new StandardBankAccount("REG-001");
+        BankAccount normalAcc = new BankAccount("REG-001") {};
         SavingsAccount savingsAcc = new SavingsAccount("SAV-001", 0.05);
 
         bank.addAccount(normalAcc);
@@ -76,7 +76,7 @@ public class BankTest {
 
         BankAccount found = bank.findAccount("SAV-001");
         assertNotNull(found);
-        assertEquals("SAV-001", found.getAccountNumber());
+        assertEquals("SAV-001", found.getAccountName());
 
         // Test searching for non-existent account
         BankAccount missing = bank.findAccount("MISSING-999");
