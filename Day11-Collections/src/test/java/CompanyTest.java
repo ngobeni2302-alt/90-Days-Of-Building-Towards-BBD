@@ -17,8 +17,8 @@ public class CompanyTest {
     @Test
     @DisplayName("addEmployee should successfully add workers and throw exception on duplicate ID")
     void testAddEmployeeAndDuplicates() {
-        Employee dev1 = new Developer("Alice", 101, 5000.0, 1500.0);
-        Employee devDuplicate = new Developer("Alicia", 101, 6000.0, 2000.0);
+        Employee dev1 = new Developer("Alice", "101", 5000.0, 1500.0);
+        Employee devDuplicate = new Developer("Alicia", "101", 6000.0, 2000.0);
 
         company.addEmployee(dev1);
         assertEquals(1, company.getAll().size());
@@ -34,28 +34,28 @@ public class CompanyTest {
     @Test
     @DisplayName("findById should retrieve employee instantly using HashMap O(1) lookup")
     void testFindById() {
-        Employee dev = new Developer("Alice", 101, 5000.0, 1500.0);
-        Employee manager = new Manager("Bob", 102, 8000.0, 3000.0);
+        Employee dev = new Developer("Alice", "101", 5000.0, 1500.0);
+        Employee manager = new Manager("Bob", "102", 8000.0, 3000.0);
 
         company.addEmployee(dev);
         company.addEmployee(manager);
 
-        Employee found = company.findById(102);
+        Employee found = company.findById("102");
         assertNotNull(found);
         assertEquals("Bob", found.getName());
         assertEquals("Manager", found.getRole());
 
         // Test non-existent ID
-        assertNull(company.findById(999), "Searching for non-existent ID should return null");
+        assertNull(company.findById("999"), "Searching for non-existent ID should return null");
     }
 
     @Test
     @DisplayName("findByRole should correctly filter employees by their job role")
     void testFindByRole() {
-        company.addEmployee(new Developer("Alice", 101, 5000.0, 1000.0));
-        company.addEmployee(new Developer("Charlie", 102, 5500.0, 1200.0));
-        company.addEmployee(new Manager("Bob", 103, 8000.0, 3000.0));
-        company.addEmployee(new Intern("Dave", 104, 3000.0));
+        company.addEmployee(new Developer("Alice", "101", 5000.0, 1000.0));
+        company.addEmployee(new Developer("Charlie", "102", 5500.0, 1200.0));
+        company.addEmployee(new Manager("Bob", "103", 8000.0, 3000.0));
+        company.addEmployee(new Intern("Dave", "104", 3000.0));
 
         List<Employee> developers = company.findByRole("Developer");
         assertEquals(2, developers.size());
@@ -74,9 +74,9 @@ public class CompanyTest {
     @Test
     @DisplayName("totalPayroll should sum up all calculated salaries correctly")
     void testTotalPayroll() {
-        company.addEmployee(new Developer("Alice", 101, 5000.0, 1000.0)); // 6000
-        company.addEmployee(new Manager("Bob", 102, 8000.0, 2000.0));    // 10000
-        company.addEmployee(new Intern("Charlie", 103, 3000.0));          // 3000
+        company.addEmployee(new Developer("Alice", "101", 5000.0, 1000.0)); // 6000
+        company.addEmployee(new Manager("Bob", "102", 8000.0, 2000.0));    // 10000
+        company.addEmployee(new Intern("Charlie", "103", 3000.0));          // 3000
 
         assertEquals(19000.0, company.totalPayroll(), 0.001);
     }
@@ -84,22 +84,22 @@ public class CompanyTest {
     @Test
     @DisplayName("removeEmployee should cleanly remove workers from both map and list")
     void testRemoveEmployee() {
-        Employee dev = new Developer("Alice", 101, 5000.0, 1500.0);
+        Employee dev = new Developer("Alice", "101", 5000.0, 1500.0);
         company.addEmployee(dev);
 
-        assertNotNull(company.findById(101));
+        assertNotNull(company.findById("101"));
         assertEquals(1, company.getAll().size());
 
-        company.removeEmployee(101);
+        company.removeEmployee("101");
 
-        assertNull(company.findById(101), "Employee should be removed from the HashMap");
+        assertNull(company.findById("101"), "Employee should be removed from the HashMap");
         assertTrue(company.getAll().isEmpty(), "Employee list should be empty after removal");
     }
 
     @Test
     @DisplayName("getAll should protect internal records via defensive copying")
     void testDefensiveCopying() {
-        company.addEmployee(new Developer("Alice", 101, 5000.0, 1500.0));
+        company.addEmployee(new Developer("Alice", "101", 5000.0, 1500.0));
 
         List<Employee> externalList = company.getAll();
         assertEquals(1, externalList.size());
