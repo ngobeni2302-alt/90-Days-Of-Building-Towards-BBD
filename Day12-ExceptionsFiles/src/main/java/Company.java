@@ -13,7 +13,7 @@ public class Company {
         this.employeeList = new ArrayList<>();
     }
 
-    public void addEmployee(Employee e) {
+    public void addEmployee(Employee e) throws DuplicateIdException {
         if (e == null) {
             throw new IllegalArgumentException("Employee cannot be null");
         }
@@ -25,7 +25,11 @@ public class Company {
     }
 
     public Employee findById(String id) {
-        return employeeMap.get(id); // O(1) instant lookup
+        Employee e = employeeMap.get(id);
+        if (e == null) {
+            throw new EmployeeNotFoundException("Employee ID not found: " + id);
+        }
+        return e;
     }
 
     public List<Employee> findByRole(String role) {
@@ -56,6 +60,6 @@ public class Company {
     }
 
     public List<Employee> getAll() {
-        return new ArrayList<>(employeeList)
+        return new ArrayList<>(employeeList);
     }
 }
