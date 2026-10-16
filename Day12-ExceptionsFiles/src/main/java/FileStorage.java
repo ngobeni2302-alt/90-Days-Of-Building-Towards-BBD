@@ -9,10 +9,10 @@ public class FileStorage {
                 String line = "";
                 if (e instanceof Developer) {
                     Developer d = (Developer) e;
-                    line = String.format("Developer,%s,%s,%.2f,%.2f", d.getId(), d.getName(), d.getBaseSalary(), d.getCodingBonus());
+                    line = String.format(Locale.US, "Developer,%s,%s,%.2f,%.2f", d.getId(), d.getName(), d.getBaseSalary(), d.getCodingBonus());
                 } else if (e instanceof Manager) {
                     Manager m = (Manager) e;
-                    line = String.format("Manager,%s,%s,%.2f,%.2f", m.getId(), m.getName(), m.getBaseSalary(), m.getManagementBonus());
+                    line = String.format(Locale.US, "Manager,%s,%s,%.2f,%.2f", m.getId(), m.getName(), m.getBaseSalary(), m.getManagementBonus());
                 } else if (e instanceof Intern) {
                     line = String.format("Intern,%s,%s,%.2f,0.0", e.getId(), e.getName(), e.getBaseSalary());
                 }

@@ -18,7 +18,7 @@ public class Company {
             throw new IllegalArgumentException("Employee cannot be null");
         }
         if (employeeMap.containsKey(e.getId())) {
-            throw new IllegalArgumentException("Duplicate employee ID: " + e.getId());
+            throw new DuplicateIdException("Duplicate employee ID: " + e.getId());
         }
         employeeMap.put(e.getId(), e);
         employeeList.add(e);
@@ -61,5 +61,9 @@ public class Company {
 
     public List<Employee> getAll() {
         return new ArrayList<>(employeeList);
+    }
+
+    public int size() {
+        return employeeMap.size();
     }
 }
