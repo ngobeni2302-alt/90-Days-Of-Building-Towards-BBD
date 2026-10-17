@@ -1,7 +1,3 @@
-Here is a clean, professional `README.md` template tailored for your **Day 12** project. You can drop this directly into your repository!
-
----
-
 # Day 12: Advanced Error Handling & File Persistence (`Day12-ExceptionsFiles`)
 
 Building upon the Object-Oriented payroll management system, **Day 12** focuses on enterprise-grade reliability: enforcing robust business rules via custom exceptions and ensuring data durability through file I/O serialization.
