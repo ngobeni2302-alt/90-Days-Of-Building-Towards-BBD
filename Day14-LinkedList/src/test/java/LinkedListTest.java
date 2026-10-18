@@ -5,7 +5,7 @@ public class LinkedListTest {
 
     @Test
     public void testAddAndGet() {
-        MyLinkedList<Integer> list = new MyLinkedList<>();
+        LinkedList<Integer> list = new LinkedList<>();
         list.add(10);
         list.add(20);
         list.add(30);
@@ -16,7 +16,7 @@ public class LinkedListTest {
 
     @Test
     public void testAddFirst() {
-        MyLinkedList<String> list = new MyLinkedList<>();
+        LinkedList<String> list = new LinkedList<>();
         list.add("B");
         list.addFirst("A");
         assertEquals("A", list.get(0));
@@ -25,7 +25,7 @@ public class LinkedListTest {
 
     @Test
     public void testRemove() {
-        MyLinkedList<String> list = new MyLinkedList<>();
+        LinkedList<String> list = new LinkedList<>();
         list.add("A");
         list.add("B");
         list.add("C");
@@ -36,7 +36,7 @@ public class LinkedListTest {
 
     @Test
     public void testReverse() {
-        MyLinkedList<Integer> list = new MyLinkedList<>();
+        LinkedList<Integer> list = new LinkedList<>();
         list.add(1);
         list.add(2);
         list.add(3);
@@ -48,7 +48,7 @@ public class LinkedListTest {
 
     @Test
     public void testOutOfBounds() {
-        MyLinkedList<String> list = new MyLinkedList<>();
+        LinkedList<String> list = new LinkedList<>();
         list.add("A");
         assertThrows(IndexOutOfBoundsException.class, () -> list.get(5));
         assertThrows(IndexOutOfBoundsException.class, () -> list.remove(5));
