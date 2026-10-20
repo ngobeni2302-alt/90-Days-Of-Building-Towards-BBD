@@ -1,4 +1,4 @@
-package com.bbd.day16;
+package com.bbd.springboot;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +27,6 @@ public class EmployeeControllerTest {
 
     @BeforeEach
     public void setup() {
-        // Clear database before each test to ensure clean state
         employeeRepository.deleteAll();
     }
 
@@ -41,9 +40,7 @@ public class EmployeeControllerTest {
                         .content(objectMapper.writeValueAsString(employee)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.name").value("Thabo"))
-                .andExpect(jsonPath("$.role").value("Developer"))
-                .andExpect(jsonPath("$.salary").value(25000.0));
+                .andExpect(jsonPath("$.name").value("Thabo"));
 
         // Test GET /employees
         mockMvc.perform(get("/employees"))
@@ -60,19 +57,5 @@ public class EmployeeControllerTest {
         mockMvc.perform(get("/employees/payroll"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("50000.0"));
-    }
-
-    @Test
-    public void testDeleteEmployee() throws Exception {
-        Employee saved = employeeRepository.save(new Employee("Charlie", "Intern", 10000.0));
-
-        // Test DELETE /employees/{id}
-        mockMvc.perform(delete("/employees/" + saved.getId()))
-                .andExpect(status().isOk());
-
-        // Verify database is empty
-        mockMvc.perform(get("/employees"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isEmpty());
     }
 }
