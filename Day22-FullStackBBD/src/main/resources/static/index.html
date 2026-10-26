@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BBD Employee System - Day 22</title>
+<style>
+*{box-sizing:border-box;font-family:Inter,Segoe UI,sans-serif}
+body{background:#0f0f0f;color:#fff;margin:0;padding:20px}
+h1{color:#ff3b30} h1 span{color:#fff}
+.card{background:#1c1c1e;border-radius:12px;padding:20px;margin-bottom:20px;border:1px solid #2c2c2e}
+input,select,button{padding:10px;border-radius:8px;border:1px solid #333;background:#2c2c2e;color:#fff;margin:5px}
+button{background:#ff3b30;border:none;cursor:pointer;font-weight:700}
+button:hover{background:#ff1a0f}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{padding:10px;text-align:left;border-bottom:1px solid #2c2c2e}
+th{color:#888}
+.badge{padding:4px 8px;border-radius:6px;font-size:12px;background:#2c2c2e}
+.stats{display:flex;gap:15px;flex-wrap:wrap}
+.stat{background:#2c2c2e;padding:15px;border-radius:10px;min-width:150px}
+.stat b{color:#ff3b30;font-size:22px}
+</style>
+</head>
+<body>
+<h1>BBD<span> Employee System</span> <small style="color:#888">Day 22 / 90</small></h1>
+
+<div class="card stats" id="stats">Loading stats...</div>
+
+<div class="card">
+<h3>Add Employee</h3>
+<input id="name" placeholder="Name e.g. Thabo">
+<input id="role" placeholder="Role e.g. Developer">
+<input id="salary" type="number" placeholder="Salary e.g. 21500">
+<select id="dept">
+<option>Engineering</option><option>QA</option><option>DevOps</option><option>Product</option><option>HR</option>
+</select>
+<button onclick="createEmp()">Add + Bring to Table</button>
+</div>
+
+<div class="card">
+<h3>Employees</h3>
+<button onclick="loadEmployees()">Refresh</button>
+<span id="count"></span>
+<table>
+<thead><tr><th>ID</th><th>Name</th><th>Role</th><th>Dept</th><th>Salary</th><th>Action</th></tr></thead>
+<tbody id="tbody"></tbody>
+</table>
+</div>
+
+<div class="card">
+<p style="color:#888">Cooking towards BBD: Day 22 - From API to Full Stack. Backend + Frontend talking. If you want to work at BBD, you need to bring the full plate.</p>
+<p>Lucky: "if you want to work at BBD, you need to know how to cook. You need to bring something to the table."</p>
+</div>
+
+<script>
+const API = '/api/employees';
+async function loadStats(){
+  let res = await fetch(API+'/stats');
+  let data = await res.json();
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><div>Total Staff</div><b>${data.count}</b></div>
+    <div class="stat"><div>Total Payroll</div><b>R ${data.totalPayroll.toFixed(2)}</b></div>
+    <div class="stat"><div>Avg Salary</div><b>R ${data.avgSalary.toFixed(0)}</b></div>
+    <div class="stat"><div>Departments</div><b>${data.departments.join(', ') || 'None'}</b></div>
+  `;
+}
+async function loadEmployees(){
+  let res = await fetch(API);
+  let list = await res.json();
+  document.getElementById('count').innerText = `${list.length} employees`;
+  document.getElementById('tbody').innerHTML = list.map(e=>`
+    <tr>
+      <td>${e.id}</td>
+      <td>${e.name}</td>
+      <td><span class="badge">${e.role}</span></td>
+      <td>${e.department}</td>
+      <td>R ${e.salary}</td>
+      <td><button onclick="deleteEmp(${e.id})" style="background:#333">Delete</button></td>
+    </tr>
+  `).join('');
+  loadStats();
+}
+async function createEmp(){
+  let body = {
+    name: document.getElementById('name').value,
+    role: document.getElementById('role').value,
+    salary: parseFloat(document.getElementById('salary').value),
+    department: document.getElementById('dept').value
+  };
+  if(!body.name || !body.role || !body.salary) return alert('Fill all');
+  let res = await fetch(API, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+  if(res.ok){ document.getElementById('name').value=''; document.getElementById('role').value=''; document.getElementById('salary').value=''; loadEmployees(); }
+  else{ let err = await res.text(); alert('Error: '+err); }
+}
+async function deleteEmp(id){
+  if(!confirm('Delete?')) return;
+  await fetch(API+'/'+id, {method:'DELETE'});
+  loadEmployees();
+}
+loadEmployees();
+</script>
+</body>
+</html>
