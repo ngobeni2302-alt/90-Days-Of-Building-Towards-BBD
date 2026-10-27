@@ -1,0 +1,25 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><title>BBD Login - Day 23</title>
+<style>*{box-sizing:border-box;font-family:Inter,sans-serif}body{background:#0f0f0f;color:#fff;display:flex;justify-content:center;align-items:center;height:100vh;margin:0}.card{background:#1c1c1e;padding:30px;border-radius:12px;width:350px;border:1px solid #2c2c2e}input{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #333;background:#2c2c2e;color:#fff}button{width:100%;padding:12px;background:#ff3b30;border:none;border-radius:8px;color:#fff;font-weight:700;cursor:pointer;margin-top:10px}button:hover{background:#ff1a0f}.link{color:#888;text-align:center;margin-top:15px;font-size:13px}.link a{color:#ff3b30;text-decoration:none}h2 span{color:#ff3b30}</style></head><body>
+<div class="card">
+<h2>BBD <span>Login</span></h2><p style="color:#888;font-size:13px">Day 23 / 90 - JWT Auth</p>
+<input id="username" placeholder="Username e.g. thabo">
+<input id="password" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<button onclick="register()" style="background:#2c2c2e">Register</button>
+<div id="msg" style="color:#ff3b30;margin-top:10px;font-size:13px"></div>
+<div class="link">Protected system - need token to access employees</div>
+</div>
+<script>
+async function register(){
+ let u=document.getElementById('username').value, p=document.getElementById('password').value;
+ let res=await fetch('/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});
+ let data=await res.json(); document.getElementById('msg').innerText=data.message||data.error;
+}
+async function login(){
+ let u=document.getElementById('username').value, p=document.getElementById('password').value;
+ let res=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});
+ let data=await res.json();
+ if(data.token){ localStorage.setItem('token',data.token); localStorage.setItem('username',data.username); window.location.href='/index.html'; }
+ else{ document.getElementById('msg').innerText=data.error; }
+}
+</script></body></html>
